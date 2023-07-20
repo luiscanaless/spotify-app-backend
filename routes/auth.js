@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const axios = require('axios');
+const imageUrlToBase64 = require("../utils/base64");
 
 const router = Router()
 
@@ -15,7 +16,10 @@ router.get('/login', (req, res) => {
     user-modify-playback-state \
     user-read-currently-playing \
     user-read-playback-state \
-    user-read-recently-played"
+    user-read-recently-played \
+    ugc-image-upload \
+    playlist-modify-public \
+    playlist-modify-private"
 
     const auth_query_parameters = new URLSearchParams({
         response_type: "code",
@@ -91,6 +95,16 @@ router.post('/refresh', async (req, res) => {
     } catch (error) {
         console.log('error en refresh')
     }
+})
+
+router.get('/image', async (req, res) => {
+    const img1 = await imageUrlToBase64('https://cdn.discordapp.com/attachments/1076804565904666626/1131411793927999519/hml4l3np76681.jpg')
+    const img2 = await imageUrlToBase64('https://media.discordapp.net/attachments/348613468246638593/1131417122724139038/image.png')
+
+    res.json({
+        img1,
+        img2
+    })
 })
 
 module.exports = router
